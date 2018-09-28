@@ -11,6 +11,7 @@ import {RecipesListPage} from "../pages/recipes-list/recipes-list";
 import {ShoppingListPage} from "../pages/shopping-list/shopping-list";
 import {TabsPage} from "../pages/tabs/tabs";
 import {ShoppingListService} from "../services/shopping-list.service";
+import {RecipesService} from "../services/recipes.service";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {ShoppingListService} from "../services/shopping-list.service";
     TabsPage
   ],
   providers: [
+    RecipesService,
     ShoppingListService,
     StatusBar,
     SplashScreen,
