@@ -12,9 +12,13 @@ import {ShoppingListPage} from "../pages/shopping-list/shopping-list";
 import {TabsPage} from "../pages/tabs/tabs";
 import {ShoppingListService} from "../services/shopping-list.service";
 import {RecipesService} from "../services/recipes.service";
+import {SigninPage} from "../pages/signin/signin";
+import {SignupPage} from "../pages/signup/signup";
 
 @NgModule({
   declarations: [
+    SigninPage,
+    SignupPage,
     MyApp,
     EditRecipePage,
     RecipePage,
@@ -29,6 +33,8 @@ import {RecipesService} from "../services/recipes.service";
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    SigninPage,
+    SignupPage,
     MyApp,
     EditRecipePage,
     RecipePage,

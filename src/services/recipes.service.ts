@@ -4,7 +4,7 @@ import {Ingredient} from "../models/ingredient";
 
 export class RecipesService {
  private recipes: Recipe[] = [
-   new Recipe('test', 'test test test','Easy', [])
+   new Recipe('test', 'test test test','Easy', [{name: 'milk', amount: 2}])
  ];
 
  getRecipes() {
