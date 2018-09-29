@@ -11,7 +11,18 @@
 
 </ion-header>
 
-
 <ion-content padding>
-
+  <form #form="ngForm" (ngSubmit)="onSignin(form)">
+    <ion-list>
+      <ion-item>
+        <ion-label fixed>Mail</ion-label>
+        <ion-input type="email" ngModel name="email" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Password</ion-label>
+        <ion-input type="password" ngModel name="password" required></ion-input>
+      </ion-item>
+    </ion-list>
+    <button ion-button type="submit" block [disabled]="!form.valid" >Signin</button>
+  </form>
 </ion-content>
