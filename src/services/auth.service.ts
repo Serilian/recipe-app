@@ -6,9 +6,13 @@ export class AuthService {
     return firebase.auth().createUserWithEmailAndPassword(email, password);
   }
 
-  singin (email: string, password: string) {
+  singin(email: string, password: string) {
     return firebase.auth().signInWithEmailAndPassword(email, password)
       .then();
-}
+  }
+
+  logout() {
+    firebase.auth().signOut();
+  }
 
 }
