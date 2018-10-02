@@ -15,12 +15,12 @@ import {RecipesService} from "../services/recipes.service";
 import {SigninPage} from "../pages/signin/signin";
 import {SignupPage} from "../pages/signup/signup";
 import {AuthService} from "../services/auth.service";
-import {SlOptionsPage} from "../pages/shopping-list/sloptions/sl-options";
 import {HttpClientModule} from "@angular/common/http";
+import {DatabaseOptionsPage} from "../pages/database-options/database-options";
 
 @NgModule({
   declarations: [
-    SlOptionsPage,
+    DatabaseOptionsPage,
     SigninPage,
     SignupPage,
     MyApp,
@@ -38,7 +38,7 @@ import {HttpClientModule} from "@angular/common/http";
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    SlOptionsPage,
+    DatabaseOptionsPage,
     SigninPage,
     SignupPage,
     MyApp,

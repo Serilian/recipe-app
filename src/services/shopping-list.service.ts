@@ -2,6 +2,7 @@ import {Ingredient} from "../models/ingredient";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AuthService} from "./auth.service";
+import "rxjs/add/operator/do";
 
 @Injectable()
 export class ShoppingListService {
@@ -30,6 +31,14 @@ export class ShoppingListService {
   storeList(token: string) {
     const userId = this.authservice.getActiveUser().uid;
      return this.http.put('https://ionic-recipe-book-e8a7e.firebaseio.com/' + userId +'/shopping-list.json?auth=' + token , this.ingredients);
+  }
+
+  fetchList(token: string) {
+    const userId = this.authservice.getActiveUser().uid;
+    return this.http.get('https://ionic-recipe-book-e8a7e.firebaseio.com/' + userId +'/shopping-list.json?auth=' + token)
+      .do((data: Ingredient[])=> {
+        this.ingredients = data;
+      });
   }
 
 }

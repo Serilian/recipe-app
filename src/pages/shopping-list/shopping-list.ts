@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {IonicPage, PopoverController} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, PopoverController} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {ShoppingListService} from "../../services/shopping-list.service";
 import {Ingredient} from "../../models/ingredient";
-import {SlOptionsPage} from "./sloptions/sl-options";
+import {DatabaseOptionsPage} from "../database-options/database-options";
 import {AuthService} from "../../services/auth.service";
 
 
@@ -16,8 +16,9 @@ export class ShoppingListPage {
 
   ingredients: Ingredient[];
 
-  constructor(private slService: ShoppingListService, private popCtrl: PopoverController, private authservice: AuthService) {
-  }
+  constructor(private slService: ShoppingListService, private popCtrl: PopoverController, private authservice: AuthService,
+              private loadCtrl: LoadingController,
+              private alertCtrl: AlertController){ }
 
   onAddItem(form: NgForm) {
     const item = form.value;
@@ -40,25 +41,61 @@ export class ShoppingListPage {
   }
 
   onShowOptions(event: MouseEvent) {
-    const popover = this.popCtrl.create(SlOptionsPage);
+    const popover = this.popCtrl.create(DatabaseOptionsPage);
+    const loading = this.loadCtrl.create({
+      content: 'Working...'
+    });
     popover.present({ev: event});
     popover.onDidDismiss(
       (data) => {
         if (data.action == 'load') {
+          loading.present();
+          this.authservice.getActiveUser().getIdToken()
+            .then((token: string) => {
+                this.slService.fetchList(token)
+                  .subscribe(
+                    (list: Ingredient[]) => {
+                      if (list) {
+                        this.ingredients = list;
+                      }
+                      console.log('List loaded');
+                      loading.dismiss();
+                    },
+                    error => {
+                      loading.dismiss();
+                      this.handleError(error.message);
+                    });
+              }
+            );
 
-        } else {
+        } else if (data.action == 'save') {
+          loading.present();
           this.authservice.getActiveUser().getIdToken()
             .then((token: string) => {
               this.slService.storeList(token).subscribe(
-                ()=>console.log('Success'),
-                error => console.log(error)
+                () => {
+                  console.log('List saved');
+                  loading.dismiss();
+                  },
+                error => {
+                  loading.dismiss();
+                  this.handleError(error.message);
+                }
               )
             })
-            ;
+          ;
         }
       }
     )
   }
 
+  handleError(error: string) {
+    const alert = this.alertCtrl.create({
+      title: 'Error!',
+      message: error,
+      buttons: ['Ok'],
+    });
+    alert.present();
+  }
 
 }
